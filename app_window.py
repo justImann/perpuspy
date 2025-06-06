@@ -76,7 +76,7 @@ class LibraryApp(QMainWindow):
         self.books_table = QTableWidget()
         self.books_table.setColumnCount(8) 
         self.books_table.setHorizontalHeaderLabels(
-            ["ID", "Judul Buku", "ISBN", "Pengarang", "Penerbit", "Tahun", "Status", "Tindakan"]
+            ["ID", "Judul Buku", "ISBN", "Pengarang", "Penerbit", "Tahun", "Status", "Actions"]
         )
         self.books_table.verticalHeader().setDefaultSectionSize(38) # Sesuaikan nilai 38 jika perlu
         self.books_table.setSelectionBehavior(QAbstractItemView.SelectRows)
