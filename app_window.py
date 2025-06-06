@@ -1,9 +1,8 @@
-# app_window.py
 import sqlite3
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
                             QLabel, QTableWidget, QTableWidgetItem, QLineEdit, QPushButton,
                             QMessageBox, QComboBox, QInputDialog, QStatusBar, QAbstractItemView,
-                            QHeaderView) # Tambahkan QHeaderView
+                            QHeaderView) 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize
@@ -17,7 +16,7 @@ class LibraryApp(QMainWindow):
         super().__init__()
         self.setWindowTitle("Sistem Manajemen Perpustakaan")
         self.setGeometry(100, 100, 1080, 700)
-        # Atur ikon untuk jendela utama
+        
         self.setWindowIcon(QIcon(config.get_icon_path("library.svg")))
 
         self.conn = None
@@ -27,7 +26,7 @@ class LibraryApp(QMainWindow):
         self.load_books()
         self.update_button_states()
 
-    # ... (init_db_connection sama seperti sebelumnya) ...
+    
     def init_db_connection(self):
         try:
             self.conn, self.cursor = database.connect_db()
@@ -39,7 +38,7 @@ class LibraryApp(QMainWindow):
 
     def init_ui(self):
         self.setStyleSheet(styles.STYLESHEET)
-        # ... (Widget dan layout utama sama) ...
+        
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
         main_layout = QVBoxLayout(central_widget)
@@ -64,10 +63,10 @@ class LibraryApp(QMainWindow):
         self.search_field.addItems(["Judul", "ISBN", "Pengarang", "Penerbit"])
         self.search_field.currentIndexChanged.connect(self.filter_books_display)
         
-        # Opsional: Ikon untuk field pencarian atau label
-        # search_label = QLabel()
-        # search_label.setPixmap(QPixmap(config.get_icon_path("search.svg")).scaled(16,16, Qt.KeepAspectRatio, Qt.SmoothTransformation))
-        # search_layout.addWidget(search_label)
+        
+        
+        
+        
         search_layout.addWidget(QLabel("Cari berdasarkan:"))
         search_layout.addWidget(self.search_field, 1)
         search_layout.addWidget(self.search_input, 3)
@@ -78,7 +77,7 @@ class LibraryApp(QMainWindow):
         self.books_table.setHorizontalHeaderLabels(
             ["ID", "Judul Buku", "ISBN", "Pengarang", "Penerbit", "Tahun", "Status", "Actions"]
         )
-        self.books_table.verticalHeader().setDefaultSectionSize(38) # Sesuaikan nilai 38 jika perlu
+        self.books_table.verticalHeader().setDefaultSectionSize(38) 
         self.books_table.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.books_table.setAlternatingRowColors(True)
         self.books_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -87,11 +86,11 @@ class LibraryApp(QMainWindow):
         main_layout.addWidget(self.books_table, 1)
 
 
-        icon_size = QSize(16, 16) # Ukuran ikon standar untuk tombol global
+        icon_size = QSize(16, 16) 
 
         action_buttons_layout = QHBoxLayout()
         action_buttons_layout.setSpacing(10)
-        self.add_btn = QPushButton(" Tambah") # Spasi agar teks tidak terlalu mepet ikon
+        self.add_btn = QPushButton(" Tambah") 
         self.add_btn.setIcon(QIcon(config.get_icon_path("add.svg")))
         self.add_btn.setIconSize(icon_size)
         self.add_btn.setToolTip("Tambah buku baru ke perpustakaan")
@@ -141,7 +140,7 @@ class LibraryApp(QMainWindow):
 
         buttons_master_layout = QHBoxLayout()
         buttons_master_layout.addLayout(action_buttons_layout)
-        buttons_master_layout.addLayout(management_buttons_layout) # Tambahkan di tengah
+        buttons_master_layout.addLayout(management_buttons_layout) 
         buttons_master_layout.addLayout(transaction_buttons_layout)
         main_layout.addLayout(buttons_master_layout)
 
@@ -160,20 +159,20 @@ class LibraryApp(QMainWindow):
         layout.setContentsMargins(5, 0, 5, 0)
         layout.setSpacing(5)
 
-        icon_size_table = QSize(14, 14) # Ukuran ikon untuk tombol di dalam tabel
+        icon_size_table = QSize(14, 14) 
 
-        edit_btn = QPushButton() # Kosongkan teks jika ikon sudah jelas
+        edit_btn = QPushButton() 
         edit_btn.setIcon(QIcon(config.get_icon_path("edit.svg")))
         edit_btn.setIconSize(icon_size_table)
         edit_btn.setToolTip(f"Edit buku ID: {book_id}")
-        edit_btn.setFixedSize(30,30) # Sesuaikan ukuran tombol total
+        edit_btn.setFixedSize(30,30) 
         edit_btn.clicked.connect(lambda checked, b_id=book_id: self.handle_edit_book_from_table(b_id))
         
-        delete_btn = QPushButton() # Kosongkan teks
+        delete_btn = QPushButton() 
         delete_btn.setIcon(QIcon(config.get_icon_path("delete.svg")))
         delete_btn.setIconSize(icon_size_table)
         delete_btn.setToolTip(f"Hapus buku ID: {book_id}")
-        delete_btn.setFixedSize(30,30) # Sesuaikan ukuran tombol total
+        delete_btn.setFixedSize(30,30) 
         delete_btn.clicked.connect(lambda checked, b_id=book_id: self.handle_delete_book_from_table(b_id))
 
         layout.addWidget(edit_btn)
@@ -182,7 +181,7 @@ class LibraryApp(QMainWindow):
         widget.setLayout(layout)
         self.books_table.setCellWidget(row_idx, 7, widget)
 
-    # ... (sisa metode di LibraryApp sama seperti _populate_table_with_books, handle_edit_book_from_table, dll.) ...
+    
     def _populate_table_with_books(self, books_data):
         self.books_table.setRowCount(0)
         self.books_table.resizeColumnsToContents()
@@ -203,7 +202,7 @@ class LibraryApp(QMainWindow):
 
         self.books_table.resizeColumnsToContents()
         self.books_table.setColumnWidth(1, 250) 
-        self.books_table.setColumnWidth(7, 90) # Sesuaikan lebar kolom tindakan agar pas
+        self.books_table.setColumnWidth(7, 90) 
         self.books_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch)
         for i in range(self.books_table.columnCount()):
             if i != 1:
@@ -308,7 +307,7 @@ class LibraryApp(QMainWindow):
         if not self.conn:
             QMessageBox.warning(self, "Koneksi Error", "Koneksi database tidak tersedia.")
             return
-        dialog = BookDialog(self) # BookDialog akan menangani ikonnya sendiri
+        dialog = BookDialog(self) 
         if dialog.exec_():
             book_data = dialog.get_data()
             self.add_book(book_data)
@@ -446,19 +445,19 @@ class LibraryApp(QMainWindow):
             QMessageBox.warning(self, "Status Tidak Valid", f"Buku '{book_title}' tidak tersedia untuk dipinjam.")
             return
 
-        # Ambil daftar anggota dari DB
+        
         members = database.get_all_members(self.cursor)
         if not members:
             QMessageBox.warning(self, "Tidak Ada Anggota", "Belum ada anggota yang terdaftar. Silakan tambahkan anggota terlebih dahulu.")
             return
 
-        # Tampilkan dialog pilih peminjam
+        
         dialog = BorrowDialog(book_title, members, self)
         if dialog.exec_():
             member_id = dialog.get_selected_member_id()
             member_name = dialog.get_selected_member_name()
 
-            # Panggil fungsi borrow_book_action yang telah diperbarui
+            
             success, error = database.borrow_book_action(self.cursor, self.conn, book_id, member_id, member_name)
             if success:
                 self.load_books()
@@ -471,9 +470,9 @@ class LibraryApp(QMainWindow):
             QMessageBox.warning(self, "Koneksi Error", "Koneksi database tidak tersedia.")
             return
         book_id, book_title, status = self._get_selected_book_info()
-        if not book_id: # ...
+        if not book_id: 
             return
-        if status != "Dipinjam": # ...
+        if status != "Dipinjam": 
             return
 
         pengembali, ok = QInputDialog.getText(self, "Identitas Pengembali", f"Masukkan nama pengembali untuk buku '{book_title}':")
@@ -492,7 +491,7 @@ class LibraryApp(QMainWindow):
         if not self.conn or not self.cursor:
             QMessageBox.warning(self, "Koneksi Error", "Koneksi database tidak tersedia untuk menampilkan riwayat.")
             return
-        dialog = HistoryDialog(self, db_conn=self.conn, db_cursor=self.cursor) # HistoryDialog akan menangani ikonnya sendiri
+        dialog = HistoryDialog(self, db_conn=self.conn, db_cursor=self.cursor) 
         dialog.exec_()
 
     def show_members_dialog(self):
